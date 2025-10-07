@@ -1,0 +1,313 @@
+/* ================================
+   🎨 VARIABLES PRINCIPALES
+================================ */
+:root {
+  --primary-blue: #1e3a8a;
+  --secondary-blue: #3b82f6;
+  --light-blue: #60a5fa;
+  --cyan-color: #0891b2;
+  --yellow-accent: #fbbf24;
+  --dark-yellow: #f59e0b;
+  --white: #ffffff;
+  --light-gray: #f1f5f9;
+  --medium-gray: #64748b;
+  --dark-gray: #334155;
+  --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --border-radius: 8px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --max-width: 1200px;
+  --primary-text: #1a1a1a;
+  --secondary-text: #444;
+  --background-light: #f5f5f5;
+  --divider-color: #4dabf7;
+  --link-hover: #4dabf7;
+  --social-bg: #333;
+  --social-color: white;
+}
+
+/* ================================
+   🦶 FOOTER PRINCIPAL
+================================ */
+.main-footer {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-gray) 100%);
+  color: var(--white);
+  padding: 40px 0 0;
+  margin-top: 1px;
+  font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+
+
+/* ================================
+   🧱 CONTENIDO PRINCIPAL DEL FOOTER
+================================ */
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ================================
+   🏢 SECCIÓN DE INFORMACIÓN DE LA EMPRESA
+================================ */
+.footer-company-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  border-left: 1px;
+}
+
+.footer-logo-link {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.footer-company-info .logo {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  align-items: center;
+}
+
+.footer-company-info .company-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--yellow-accent);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.footer-company-info .description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: justify;
+}
+
+/* ================================
+   ☎️ INFORMACIÓN DE CONTACTO
+================================ */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.contact-item a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.contact-item a:hover {
+  color: var(--yellow-accent);
+}
+
+/* Íconos FontAwesome */
+.contact-item .icon-email::before,
+.contact-item .icon-phone::before,
+.contact-item .icon-location::before {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--light-blue);
+}
+
+.contact-item .icon-email::before { content: '\f0e0'; }
+.contact-item .icon-phone::before { content: '\f095'; }
+.contact-item .icon-location::before { content: '\f3c5'; }
+
+/* ================================
+   🔗 ENLACES DEL FOOTER
+================================ */
+.footer-links{
+    margin-top: 90px;
+    margin-left: 80px;
+    
+}
+
+.footer-links h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--yellow-accent);
+  margin-bottom: 20px;
+}
+
+.footer-links .menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links .menu li a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.footer-links .menu li a:hover {
+  color: var(--yellow-accent);
+  transform: translateX(5px);
+}
+
+/* ================================
+   💬 REDES SOCIALES Y MÉTODOS DE PAGO
+================================ */
+.footer-social-payment {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 80px;
+}
+
+/* Redes sociales */
+.social-section h4,
+.payment-section h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--yellow-accent);
+  margin-bottom: 15px;
+}
+
+.social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.social-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+}
+
+.social-icon:hover {
+  background: var(--yellow-accent);
+  color: var(--primary-blue);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);
+}
+
+/* Colores específicos */
+.social-icon.tiktok:hover { background: #000; }
+.social-icon.facebook:hover { background: #1877f2; }
+.social-icon.whatsapp:hover { background: #25d366; }
+
+/* Métodos de pago */
+.payment-section .payment-text {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 15px;
+}
+
+.payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.payment-icon {
+  height: 35px;
+  background: var(--white);
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.payment-icon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* ================================
+   ⚖️ PARTE INFERIOR (COPYRIGHT / LEGALES)
+================================ */
+.footer-bottom {
+  padding: 25px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-legal-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-legal-links a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.footer-legal-links a:hover {
+  color: var(--yellow-accent);
+}
+
+/* ================================
+   📱 DISEÑO RESPONSIVO
+================================ */
+@media (max-width: 768px) {
+  .main-footer {
+    padding: 40px 0 0;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .footer-legal-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social-icons,
+  .payment-methods {
+    justify-content: center;
+  }
+}
