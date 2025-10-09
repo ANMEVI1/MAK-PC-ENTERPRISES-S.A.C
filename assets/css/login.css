@@ -1,0 +1,188 @@
+/* login-styles.css */
+:root {
+    --primary-blue: #101745;   /* Azul oscuro principal */
+    --secondary-blue: #0d2c81; /* Azul medio */
+    --accent-blue: #0664a8;    /* Azul vivo */
+    --bg-light: #1697be;       /* Azul claro (fondos) */
+    --shadow: rgba(0, 0, 0, 0.1); /* Sombras */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    min-height: 100vh;
+}
+
+.login-container {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    min-height: 100vh;
+}
+
+.login-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px var(--shadow);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.logo-placeholder {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-placeholder a img {
+    width: 200;
+    height: 200;
+    object-fit: contain;
+}
+
+h2 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.input-group-text {
+    border: 1px solid #e0e0e0;
+    border-right: none;
+}
+
+.form-control {
+    border: 1px solid #e0e0e0;
+    border-left: none;
+    padding: 12px 15px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: var(--accent-blue);
+    background-color: rgba(6, 100, 168, 0.1);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--accent-blue), var(--bg-light));
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(6, 100, 168, 0.4);
+}
+
+.btn-success:active {
+    transform: translateY(0);
+}
+
+.form-check-input:checked {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.text-success {
+    color: var(--accent-blue) !important;
+}
+
+.text-success:hover {
+    color: var(--secondary-blue) !important;
+    text-decoration: underline !important;
+}
+
+/* Animaciones */
+.login-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-control, .input-group-text {
+    transition: all 0.3s ease;
+}
+
+.form-control:hover {
+    border-color: #c0c0c0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .login-card {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .logo-placeholder {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .logo-placeholder i {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Estados de validación */
+.was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
+
+.was-validated .form-control:valid {
+    border-color: var(--primary-green);
+}
+
+.was-validated .input-group .form-control:invalid ~ .input-group-text {
+    border-color: #dc3545;
+}
+
+.was-validated .input-group .form-control:valid ~ .input-group-text {
+    border-color: var(--primary-green);
+}
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Menor separación */
+    margin-top: 15px;
+}
+
+.social-icons a {
+    font-size: 18px; /* Más pequeños */
+    color: #666;     /* Gris opaco */
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+/* Efecto hover */
+.social-icons a:hover {
+    color: #000;       /* Se pone negro al pasar */
+    transform: scale(1.2); /* Ligero aumento */
+}

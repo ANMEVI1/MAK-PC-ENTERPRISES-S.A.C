@@ -61,11 +61,6 @@
     font-size: 0.85rem;
 }
 
-/* Estilo para destacar "Iniciar Sesión" */
-.topbar-link-bold {
-    font-weight: 600;
-}
-
 /* Ajustes responsivos para que los elementos no se apilen tan pronto */
 @media (max-width: 991px) {
     .topbar-left {
