@@ -331,8 +331,31 @@
         font-size: 1rem;
     }
     
+    /* ✅ NUEVO: Botón visible y ajustado */
     .btn-login {
-        display: none;
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        border-radius: 20px;
+    }
+    
+    .nav-actions {
+        gap: 6px;
+    }
+}
+/* Para móviles muy pequeños */
+@media (max-width: 360px) {
+    .logo-text {
+        font-size: 0.85rem;
+    }
+    
+    .btn-login {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+    
+    .nav-actions {
+        gap: 5px;
     }
 }
 
