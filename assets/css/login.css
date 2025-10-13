@@ -116,6 +116,25 @@ body {
 .btn-success:focus {
     box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
 }
+/* ===== BOTÓN SOLO ICONO VOLVER AL INICIO ===== */
+.btn-volver {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--accent-blue);
+    z-index: 10;
+    transition: color 0.3s ease;
+}
+
+.btn-volver:hover {
+    color: var(--secondary-blue);
+    transform: scale(1.2);
+}
+
+
 
 /* ===== CHECKBOX ===== */
 .form-check-input:checked {
