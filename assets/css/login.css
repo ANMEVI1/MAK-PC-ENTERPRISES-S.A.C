@@ -7,17 +7,23 @@
     --shadow: rgba(0, 0, 0, 0.1); /* Sombras */
 }
 
+/* ===== ESTILOS BASE ===== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     min-height: 100vh;
+    margin: 0;
 }
 
+/* ===== CONTENEDOR PRINCIPAL ===== */
 .login-container {
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     min-height: 100vh;
+    display: flex;
+    align-items: center;
 }
 
+/* ===== TARJETA DE LOGIN ===== */
 .login-card {
     background: white;
     border-radius: 15px;
@@ -26,8 +32,10 @@ body {
     border: none;
     position: relative;
     overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
 }
 
+/* ===== LOGO ===== */
 .logo-placeholder {
     width: 200px;
     height: 200px;
@@ -38,19 +46,26 @@ body {
 }
 
 .logo-placeholder a img {
-    width: 200;
-    height: 200;
+    width: 200px; /* Corregido: agregué 'px' */
+    height: 200px; /* Corregido: agregué 'px' */
     object-fit: contain;
 }
 
-h2 {
+/* ===== TIPOGRAFÍA ===== */
+.login-card h1,
+.login-card h2,
+.login-card h3,
+.login-card h4 {
     font-weight: 700;
     letter-spacing: -0.5px;
+    color: inherit;
 }
 
+/* ===== FORMULARIO ===== */
 .input-group-text {
     border: 1px solid #e0e0e0;
     border-right: none;
+    background-color: #f8f9fa;
 }
 
 .form-control {
@@ -64,6 +79,7 @@ h2 {
 .form-control:focus {
     border-color: var(--accent-blue);
     box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
+    outline: none;
 }
 
 .input-group:focus-within .input-group-text {
@@ -71,6 +87,11 @@ h2 {
     background-color: rgba(6, 100, 168, 0.1);
 }
 
+.form-control:hover {
+    border-color: #c0c0c0;
+}
+
+/* ===== BOTONES ===== */
 .btn-success {
     background: linear-gradient(135deg, var(--accent-blue), var(--bg-light));
     border: none;
@@ -92,11 +113,41 @@ h2 {
     transform: translateY(0);
 }
 
+.btn-success:focus {
+    box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
+}
+/* ===== BOTÓN SOLO ICONO VOLVER AL INICIO ===== */
+.btn-volver {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--accent-blue);
+    z-index: 10;
+    transition: color 0.3s ease;
+}
+
+.btn-volver:hover {
+    color: var(--secondary-blue);
+    transform: scale(1.2);
+}
+
+
+
+/* ===== CHECKBOX ===== */
 .form-check-input:checked {
     background-color: var(--accent-blue);
     border-color: var(--accent-blue);
 }
 
+.form-check-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
+}
+
+/* ===== ENLACES ===== */
 .text-success {
     color: var(--accent-blue) !important;
 }
@@ -106,11 +157,7 @@ h2 {
     text-decoration: underline !important;
 }
 
-/* Animaciones */
-.login-card {
-    animation: fadeInUp 0.6s ease-out;
-}
-
+/* ===== ANIMACIONES ===== */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -122,42 +169,13 @@ h2 {
     }
 }
 
-.form-control, .input-group-text {
-    transition: all 0.3s ease;
-}
-
-.form-control:hover {
-    border-color: #c0c0c0;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .login-card {
-        padding: 1.5rem;
-        margin: 1rem;
-    }
-    
-    h2 {
-        font-size: 1.5rem;
-    }
-    
-    .logo-placeholder {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .logo-placeholder i {
-        font-size: 1.5rem !important;
-    }
-}
-
-/* Estados de validación */
+/* ===== ESTADOS DE VALIDACIÓN ===== */
 .was-validated .form-control:invalid {
     border-color: #dc3545;
 }
 
 .was-validated .form-control:valid {
-    border-color: var(--primary-green);
+    border-color: var(--accent-blue); /* Corregido: usé --accent-blue en lugar de --primary-green */
 }
 
 .was-validated .input-group .form-control:invalid ~ .input-group-text {
@@ -165,24 +183,83 @@ h2 {
 }
 
 .was-validated .input-group .form-control:valid ~ .input-group-text {
-    border-color: var(--primary-green);
+    border-color: var(--accent-blue); /* Corregido: usé --accent-blue en lugar de --primary-green */
 }
+
+/* ===== ICONOS SOCIALES ===== */
 .social-icons {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Menor separación */
+    gap: 10px;
     margin-top: 15px;
 }
 
 .social-icons a {
-    font-size: 18px; /* Más pequeños */
-    color: #666;     /* Gris opaco */
+    font-size: 18px;
+    color: #666;
     transition: all 0.3s ease;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
 }
 
-/* Efecto hover */
 .social-icons a:hover {
-    color: #000;       /* Se pone negro al pasar */
-    transform: scale(1.2); /* Ligero aumento */
+    color: #000;
+    transform: scale(1.2);
+    background-color: #e9ecef;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .login-card {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .login-card h1,
+    .login-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .logo-placeholder {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1rem;
+    }
+    
+    .logo-placeholder a img {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .social-icons a {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}
+
+/* ===== ACCESIBILIDAD ===== */
+@media (prefers-reduced-motion: reduce) {
+    .login-card,
+    .btn-success,
+    .form-control,
+    .social-icons a {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* ===== ESTILOS PARA ESTADOS DE FOCO ===== */
+a:focus,
+button:focus,
+.form-control:focus,
+.form-check-input:focus {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
 }
