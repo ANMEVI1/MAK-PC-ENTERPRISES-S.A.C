@@ -58,22 +58,24 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  align-items: center;
+  align-items: flex-start;
   border-left: 1px;
 }
 
 .footer-logo-link {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 10px auto; /* Centrado horizontal */
 }
 
 .footer-company-info .logo {
-  width: 150px;
-  height: 150px;
+  width: 80%;
+  height: auto;
   object-fit: contain;
-  align-items: center;
+
 }
 
 .footer-company-info .company-name {
@@ -97,8 +99,10 @@
 .contact-info {
   display: flex;
   flex-direction: column;
+  align-content: left;
   gap: 5px;
-}
+  padding: -50px;
+  }
 
 .contact-item {
   display: flex;
