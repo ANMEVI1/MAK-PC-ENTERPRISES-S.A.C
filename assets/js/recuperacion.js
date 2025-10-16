@@ -9,7 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputFields = document.querySelectorAll('.input-field');
     const btnText = document.getElementById('btn-text');
     const form = document.getElementById('forgotPasswordForm');
+    const verificationForm = document.getElementById('verificationForm');
+    const newPasswordForm = document.getElementById('newPasswordForm');
+    const successMessage = document.getElementById('success-message');
     
+    // Variables de estado
+    let selectedMethod = null;
+    let contactInfo = '';
+    let currentStep = 1; // 1: método, 2: verificación, 3: nueva contraseña, 4: éxito
+
     // Verificar que estamos en la página correcta
     if (!form) {
         console.log('Formulario de recuperación no encontrado');
@@ -83,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (btnText) {
                 btnText.textContent = buttonTexts[method] || 'Continuar';
             }
+
+            selectedMethod = method;
         });
     });
     
@@ -116,10 +126,146 @@ document.addEventListener('DOMContentLoaded', function() {
             if (inputField) inputField.focus();
             return;
         }
+
+        // Validaciones específicas
+        if (selectedMethod === 'email' && !validateEmail(inputValue)) {
+            showNotification('Por favor, ingresa un correo electrónico válido', 'error');
+            inputField.focus();
+            return;
+        }
+
+        if (selectedMethod === 'sms' && !validatePhone(inputValue)) {
+            showNotification('Por favor, ingresa un número de teléfono válido (9 dígitos)', 'error');
+            inputField.focus();
+            return;
+        }
+        
+        contactInfo = inputValue;
         
         // Mostrar listado de preguntas
         showSecurityQuestionsList(selectedMethod, inputValue);
     });
+
+    // ==================== MANEJAR VERIFICACIÓN DE CÓDIGO ====================
+    if (verificationForm) {
+        verificationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const enteredCode = document.getElementById('verification-code').value.trim();
+            
+            if (!enteredCode) {
+                showNotification('Por favor ingresa el código de verificación', 'error');
+                return;
+            }
+            
+            // ✅ ACEPTAR CUALQUIER CÓDIGO DE 6 DÍGITOS
+            if (enteredCode.length === 6 && /^\d+$/.test(enteredCode)) {
+                // Código válido - Mostrar interfaz para restablecer contraseña
+                showNotification('¡Código verificado correctamente!', 'success');
+                setTimeout(() => {
+                    showNewPasswordForm();
+                }, 1500);
+            } else {
+                showNotification('El código debe tener exactamente 6 dígitos', 'error');
+                document.getElementById('verification-code').style.borderColor = '#ef4444';
+                document.getElementById('verification-code').focus();
+                
+                // Efecto de vibración en el campo
+                document.getElementById('verification-code').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('verification-code').classList.remove('shake');
+                }, 500);
+            }
+        });
+
+        // Manejar reenvío de código
+        document.getElementById('resend-code')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            sendVerificationCode(selectedMethod, contactInfo);
+            showNotification('Se ha enviado un nuevo código de verificación', 'success');
+        });
+
+        // Volver al método anterior
+        document.getElementById('back-to-method')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            showMethodSelectionForm();
+        });
+
+        // Auto-tabulación para código de 6 dígitos
+        document.getElementById('verification-code')?.addEventListener('input', function(e) {
+            const code = this.value.replace(/\D/g, '');
+            this.value = code.slice(0, 6);
+            
+            // Auto-enviar si está completo
+            if (code.length === 6) {
+                this.form.dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+        });
+    }
+
+    // ==================== MANEJAR NUEVA CONTRASEÑA ====================
+    if (newPasswordForm) {
+        newPasswordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Validaciones de contraseña
+            if (newPassword.length < 6) {
+                showNotification('La contraseña debe tener al menos 6 caracteres', 'error');
+                document.getElementById('new-password').focus();
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('Las contraseñas no coinciden', 'error');
+                document.getElementById('confirm-password').focus();
+                return;
+            }
+
+            // Verificar fortaleza de contraseña (opcional)
+            if (!isPasswordStrong(newPassword)) {
+                showNotification('La contraseña debe incluir mayúsculas, minúsculas y números', 'warning');
+                return;
+            }
+            
+            // Simular cambio de contraseña exitoso
+            simulatePasswordChange(newPassword);
+        });
+
+        // Mostrar/ocultar contraseña
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const input = this.closest('.input-group').querySelector('input');
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // Validación en tiempo real de coincidencia de contraseñas
+        document.getElementById('confirm-password')?.addEventListener('input', function() {
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = this.value;
+            
+            if (confirmPassword && newPassword !== confirmPassword) {
+                this.style.borderColor = '#ef4444';
+            } else if (confirmPassword && newPassword === confirmPassword) {
+                this.style.borderColor = '#10b981';
+            } else {
+                this.style.borderColor = '';
+            }
+        });
+    }
     
     // ==================== MOSTRAR LISTADO DE PREGUNTAS ====================
     function showSecurityQuestionsList(method, contactInfo) {
@@ -317,89 +463,157 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ==================== ENVIAR CÓDIGO DE VERIFICACIÓN ====================
     function sendVerificationCode(method, contactInfo) {
-        // Generar código aleatorio de 6 dígitos
-        const verificationCode = Math.floor(100000 + Math.random() * 900000);
+        // ✅ NO generar código - el usuario puede ingresar cualquier código de 6 dígitos
         
-        // Mostrar código en pantalla
-        showVerificationCode(method, contactInfo, verificationCode);
+        // Mostrar formulario de verificación
+        showVerificationForm(method, contactInfo);
         
-        console.log('✅ CÓDIGO ENVIADO:');
-        console.log('Método:', method);
-        console.log('Contacto:', contactInfo);
-        console.log('CÓDIGO:', verificationCode);
+        console.log('📧 Simulando envío de código a:', contactInfo);
+        console.log('💡 El usuario puede ingresar CUALQUIER código de 6 dígitos');
+    }
+
+    // ==================== MOSTRAR FORMULARIO DE VERIFICACIÓN ====================
+    function showVerificationForm(method, contactInfo) {
+        currentStep = 2;
+        
+        // Ocultar formulario actual
+        form.classList.add('d-none');
+        
+        // Mostrar formulario de verificación
+        if (verificationForm) {
+            verificationForm.classList.remove('d-none');
+            
+            // Actualizar descripción
+            const description = document.getElementById('verification-description');
+            if (description) {
+                description.textContent = method === 'email' 
+                    ? `Hemos enviado un código de verificación a ${contactInfo}`
+                    : `Hemos enviado un código de verificación al número ${contactInfo}`;
+            }
+            
+            // Limpiar y enfocar campo de código
+            document.getElementById('verification-code').value = '';
+            setTimeout(() => {
+                document.getElementById('verification-code').focus();
+            }, 300);
+        }
+    }
+
+    // ==================== MOSTRAR FORMULARIO DE NUEVA CONTRASEÑA ====================
+    function showNewPasswordForm() {
+        currentStep = 3;
+        
+        // Ocultar formulario de verificación
+        if (verificationForm) {
+            verificationForm.classList.add('d-none');
+        }
+        
+        // Mostrar formulario de nueva contraseña
+        if (newPasswordForm) {
+            newPasswordForm.classList.remove('d-none');
+            
+            // Limpiar campos
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+            
+            // Enfocar campo de nueva contraseña
+            setTimeout(() => {
+                document.getElementById('new-password').focus();
+            }, 300);
+        }
+    }
+
+    // ==================== MOSTRAR MENSAJE DE ÉXITO ====================
+    function showSuccessMessage() {
+        currentStep = 4;
+        
+        // Ocultar formulario de nueva contraseña
+        if (newPasswordForm) {
+            newPasswordForm.classList.add('d-none');
+        }
+        
+        // Mostrar mensaje de éxito
+        if (successMessage) {
+            successMessage.classList.remove('d-none');
+        }
+    }
+
+    // ==================== VOLVER A SELECCIÓN DE MÉTODO ====================
+    function showMethodSelectionForm() {
+        currentStep = 1;
+        
+        // Ocultar formulario de verificación
+        if (verificationForm) {
+            verificationForm.classList.add('d-none');
+        }
+        
+        // Mostrar formulario principal
+        form.classList.remove('d-none');
+        
+        // Limpiar campos
+        document.getElementById('verification-code').value = '';
+    }
+
+    // ==================== SIMULAR CAMBIO DE CONTRASEÑA ====================
+    function simulatePasswordChange(newPassword) {
+        // Mostrar estado de carga
+        const submitBtn = newPasswordForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Cambiando contraseña...';
+        submitBtn.disabled = true;
+
+        // Simular proceso de cambio (2 segundos)
+        setTimeout(() => {
+            // Actualizar en localStorage (simulación)
+            const userData = JSON.parse(localStorage.getItem('userSecurityData') || '{}');
+            userData.password = newPassword; // En realidad debería ser hash
+            localStorage.setItem('userSecurityData', JSON.stringify(userData));
+            
+            // Mostrar éxito
+            showNotification('¡Contraseña restablecida exitosamente!', 'success');
+            showSuccessMessage();
+            
+            // Restaurar botón
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            
+            console.log('🔐 CONTRASEÑA ACTUALIZADA para usuario:', userData.email || userData.phone);
+            
+        }, 2000);
     }
     
-    // ==================== MOSTRAR CÓDIGO EN PANTALLA ====================
-    function showVerificationCode(method, contactInfo, code) {
-        const codeModal = document.createElement('div');
-        codeModal.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            padding: 20px;
-        `;
-        
-        codeModal.innerHTML = `
-            <div style="
-                background: white;
-                border-radius: 15px;
-                padding: 2rem;
-                max-width: 400px;
-                width: 100%;
-                text-align: center;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            ">
-                <div class="text-success mb-3">
-                    <i class="fas fa-check-circle" style="font-size: 3rem;"></i>
-                </div>
-                
-                <h4 class="text-dark mb-3">¡Código Enviado!</h4>
-                
-                <p class="mb-3">Se ha enviado un código de verificación a:</p>
-                <p class="fw-bold text-primary mb-4">${contactInfo}</p>
-                
-                <div style="
-                    background: linear-gradient(135deg, #10b981, #059669);
-                    color: white;
-                    padding: 1.5rem;
-                    border-radius: 10px;
-                    margin: 1rem 0;
-                    border: 2px dashed rgba(255,255,255,0.3);
-                ">
-                    <h2 class="mb-2" style="font-size: 2.5rem; letter-spacing: 5px;">${code}</h2>
-                    <small>Este código expira en 10 minutos</small>
-                </div>
-                
-                <button id="close-code-btn" class="btn btn-success w-100 mt-3">
-                    <i class="fas fa-check me-2"></i>Entendido
-                </button>
-            </div>
-        `;
-        
-        document.body.appendChild(codeModal);
-        
-        // Cerrar modal
-        document.getElementById('close-code-btn').addEventListener('click', function() {
-            document.body.removeChild(codeModal);
-        });
+    // ==================== FUNCIONES AUXILIARES ====================
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    function validatePhone(phone) {
+        const re = /^\d{9}$/;
+        return re.test(phone);
+    }
+    
+    function isPasswordStrong(password) {
+        // Mínimo 6 caracteres, al menos una mayúscula, una minúscula y un número
+        const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+        return strongRegex.test(password);
     }
     
     // ==================== FUNCIÓN DE NOTIFICACIONES ====================
     function showNotification(message, type = 'success') {
+        // Remover notificaciones existentes
+        document.querySelectorAll('.custom-notification').forEach(notification => {
+            notification.remove();
+        });
+        
         const notification = document.createElement('div');
+        notification.className = 'custom-notification';
         notification.textContent = message;
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === 'success' ? '#10b981' : '#ef4444'};
+            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b'};
             color: white;
             padding: 15px 25px;
             border-radius: 8px;
@@ -407,16 +621,49 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 10000;
             font-weight: 500;
             max-width: 400px;
+            animation: slideInRight 0.3s ease;
         `;
         
         document.body.appendChild(notification);
         
         setTimeout(() => {
             if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
             }
         }, 4000);
     }
     
-    console.log('✅ Sistema de recuperación con listado de preguntas LISTO');
+    // ==================== ESTILOS DE ANIMACIÓN ====================
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    console.log('✅ Sistema de recuperación completo LISTO');
+    console.log('📱 Flujo: Método → Pregunta → Código → Nueva Contraseña → Éxito');
+    console.log('💡 El sistema acepta CUALQUIER código de 6 dígitos');
 });
