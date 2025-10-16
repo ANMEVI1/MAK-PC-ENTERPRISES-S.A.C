@@ -1,317 +1,332 @@
-/* ================================
-   🎨 VARIABLES PRINCIPALES
-================================ */
-:root {
-  --primary-blue: #1e3a8a;
-  --secondary-blue: #3b82f6;
-  --light-blue: #60a5fa;
-  --cyan-color: #0891b2;
-  --yellow-accent: #fbbf24;
-  --dark-yellow: #f59e0b;
-  --white: #ffffff;
-  --light-gray: #f1f5f9;
-  --medium-gray: #64748b;
-  --dark-gray: #334155;
-  --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.05);
-  --shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.1);
-  --shadow-strong: 0 20px 40px rgba(0, 0, 0, 0.15);
-  --border-radius: 8px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --max-width: 1200px;
-  --primary-text: #1a1a1a;
-  --secondary-text: #444;
-  --background-light: #f5f5f5;
-  --divider-color: #4dabf7;
-  --link-hover: #4dabf7;
-  --social-bg: #333;
-  --social-color: white;
+/* ========================================
+    ESTILOS EXCLUSIVOS DEL FOOTER
+    Archivo: footer-styles.css
+   ======================================== */
+
+/* Variables CSS solo para el footer */
+.footer-container {
+    --primary-text: #1a1a1a;
+    --secondary-text: #444;
+    --background-light: #f5f5f5;
+    --divider-color: #4dabf7;
+    --link-hover: #4dabf7;
+    --social-bg: #333;
+    --social-color: white;
 }
 
-/* ================================
-   🦶 FOOTER PRINCIPAL
-================================ */
-.main-footer {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-gray) 100%);
-  color: var(--white);
-  padding: 40px 0 0;
-  margin-top: 1px;
-  font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* Línea divisora superior del footer */
+.footer-container .linea-divider {
+    border: none;
+    height: 1px;
+    background-color: #000000;
+    margin: 2rem 0;
 }
 
-
-
-/* ================================
-   🧱 CONTENIDO PRINCIPAL DEL FOOTER
-================================ */
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ================================
-   🏢 SECCIÓN DE INFORMACIÓN DE LA EMPRESA
-================================ */
-.footer-company-info {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: flex-start;
-  border-left: 1px;
-}
-
-.footer-logo-link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 10px auto; /* Centrado horizontal */
-}
-
-.footer-company-info .logo {
-  width: 80%;
-  height: auto;
-  object-fit: contain;
-
-}
-
-.footer-company-info .company-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--yellow-accent);
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.footer-company-info .description {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.85);
-  text-align: justify;
-}
-
-/* ================================
-   ☎️ INFORMACIÓN DE CONTACTO
-================================ */
-.contact-info {
-  display: flex;
-  flex-direction: column;
-  align-content: left;
-  gap: 5px;
-  padding: -50px;
-  }
-
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.contact-item a {
-  color: inherit;
-  text-decoration: none;
-  transition: var(--transition);
-}
-
-.contact-item a:hover {
-  color: var(--yellow-accent);
-}
-
-/* Íconos FontAwesome */
-.contact-item .icon-email::before,
-.contact-item .icon-phone::before,
-.contact-item .icon-location::before {
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  font-size: 1.1rem;
-  color: var(--light-blue);
-}
-
-.contact-item .icon-email::before { content: '\f0e0'; }
-.contact-item .icon-phone::before { content: '\f095'; }
-.contact-item .icon-location::before { content: '\f3c5'; }
-
-/* ================================
-   🔗 ENLACES DEL FOOTER
-================================ */
-.footer-links{
-    margin-top: 90px;
-    margin-left: 80px;
-   
-}
-
-.footer-links h4 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--yellow-accent);
-  margin-bottom: 20px;
-}
-
-.footer-links .menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.footer-links .menu li a {
-  color: rgba(255, 255, 255, 0.85);
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: var(--transition);
-}
-
-.footer-links .menu li a:hover {
-  color: var(--yellow-accent);
-  transform: translateX(5px);
-}
-
-/* ================================
-   💬 REDES SOCIALES Y MÉTODOS DE PAGO
-================================ */
-.footer-social-payment {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  margin-top: 80px;
-}
-
-/* Redes sociales */
-.social-section h4,
-.payment-section h4 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--yellow-accent);
-  margin-bottom: 15px;
-}
-
-.social-icons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.social-icon {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--white);
-  font-size: 1.2rem;
-  text-decoration: none;
-  transition: var(--transition);
-  backdrop-filter: blur(10px);
-}
-
-.social-icon:hover {
-  background: var(--yellow-accent);
-  color: var(--primary-blue);
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);
-}
-
-/* Colores específicos */
-.social-icon.tiktok:hover { background: #000; }
-.social-icon.facebook:hover { background: #1877f2; }
-.social-icon.whatsapp:hover { background: #25d366; }
-
-/* Métodos de pago */
-.payment-section .payment-text {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 15px;
-}
-
-.payment-methods {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: center;
-}
-
-.payment-icon {
-  height: 35px;
-  background: var(--white);
-  padding: 5px 10px;
-  border-radius: 6px;
-  transition: var(--transition);
-}
-
-.payment-icon:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-}
-
-/* ================================
-   ⚖️ PARTE INFERIOR (COPYRIGHT / LEGALES)
-================================ */
-.footer-bottom {
-  padding: 25px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.footer-bottom p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.footer-legal-links {
-  display: flex;
-  gap: 20px;
-}
-
-.footer-legal-links a {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: var(--transition);
-}
-
-.footer-legal-links a:hover {
-  color: var(--yellow-accent);
-}
-
-/* ================================
-   📱 DISEÑO RESPONSIVO
-================================ */
-@media (max-width: 768px) {
-  .main-footer {
-    padding: 40px 0 0;
-  }
-
-  .footer-content {
-    grid-template-columns: 1fr;
+/* Wrapper del contenido del footer */
+.footer-container .content-wrapper {
+    display: grid;
+    grid-template-columns: 2.2fr 1px 1fr 1px 1fr;
     gap: 30px;
-  }
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    align-items: center;
+}
 
-  .footer-bottom {
+/* Columna izquierda */
+.footer-container .column-left {
+  padding-right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  text-align: center;/* centra el logo y el contenido */
+  position: relative; /* se puede mantener si necesitas posicionamiento interno */
+}
+
+/* quitar absolute para que el logo esté en el flujo y centrado */
+.footer-container .logo {
+  width: 130px;
+  height: auto;
+  margin-bottom: 12px;
+  position: static; /* <-- importante: ya no absolute */
+  transform: none;
+  box-shadow: none;
+}
+
+.footer-container .company-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 8px;   /* menos margin si el logo está en el flujo */
+  margin-bottom: 20px;
+  color: var(--primary-text);
+  text-align: center;
+  width: 100%;
+  max-width: 720px;  /* limitar ancho para que el texto no ocupe todo */
+}
+
+.footer-container .description {
+  text-align: justify;  /* ya lo tenías, lo dejamos */
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: var(--secondary-text);
+  font-size: 0.9rem;
+  width: 100%;
+  max-width: 720px;    /* limitar ancho ayuda a que la justificación se vea bien */
+}
+.footer-container .divider {
+  border: none;
+  border-top: 2px dashed var(--divider-color);
+  width: 100%;         /* quitar 155rem que rompía el layout */
+  max-width: 720px;
+  margin: 0;
+}
+
+
+/* Columna central (menú) */
+.footer-container .column-middle {
+    padding: 0 10px;
+    color: black;
+}
+
+.footer-container .menu {
+    list-style: none;
+    display: flex;
     flex-direction: column;
-    text-align: center;
-    gap: 10px;
-  }
+    gap: 8px;
+    align-items: flex-start;
+    padding-left: 0;
+    margin: 0;
+}
 
-  .footer-legal-links {
-    flex-direction: column;
-    gap: 10px;
-  }
+.footer-container .menu-item {
+    color: var(--primary-text);
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 2px 0;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
 
-  .social-icons,
-  .payment-methods {
+.footer-container .menu-item:hover {
+    color: var(--link-hover);
+}
+
+/* Columna derecha (redes sociales y pagos) */
+.footer-container .column-right {
+    padding-left: 30px;
+}
+
+.footer-container .social-section {
+    margin-bottom: 25px;
+}
+
+.footer-container .social-title {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-bottom: 10px;
+    color: var(--primary-text);
+}
+
+.footer-container .social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.footer-container .social-icon {
+    display: flex;
+    align-items: center;
     justify-content: center;
-  }
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    background-color: var(--social-bg);
+    color: var(--social-color);
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.footer-container .social-icon:hover {
+    transform: scale(1.1);
+}
+
+.footer-container .payment-section {
+    margin-top: 0;
+}
+
+.footer-container .payment-text {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: var(--primary-text);
+}
+
+.footer-container .payment-methods {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.footer-container .payment-icon {
+    width: 40px;
+    height: auto;
+    border-radius: 2px;
+    padding: 2px;
+}
+
+/* Copyright footer */
+.footer-container .footer {
+    color: var(--secondary-text);
+    font-size: 0.85rem;
+    padding: 20px 0;
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* ========================================
+    RESPONSIVE DEL FOOTER
+   ======================================== */
+
+/* Tablets grandes y pantallas medianas */
+@media (max-width: 1024px) {
+    .footer-container .content-wrapper {
+        grid-template-columns: 2fr 1px 1.5fr;
+        gap: 30px;
+    }
+    
+    .footer-container .column-left {
+        grid-column: 1 / 2;
+        padding-right: 0;
+        align-items: center;
+    }
+
+    .footer-container .logo {
+        position: static;
+        transform: none;
+        margin: 0 auto;
+    }
+
+    .footer-container .company-name {
+        margin-top: 10px;
+    }
+
+    .footer-container .description,
+    .footer-container .contact-info,
+    .footer-container .divider-container {
+        align-self: center;
+        padding: 0 10px;
+    }
+    
+    .footer-container .vertical-divider {
+        grid-column: 2 / 3;
+    }
+
+    .footer-container .column-middle,
+    .footer-container .column-right {
+        grid-column: 3 / 4;
+        padding-left: 10px;
+    }
+
+    .footer-container .column-middle {
+        margin-bottom: 30px;
+    }
+    
+    .footer-container .vertical-divider:nth-of-type(2) {
+        display: none;
+    }
+}
+
+/* Tablets y móviles grandes */
+@media (max-width: 768px) {
+    .footer-container .content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .footer-container .column-left,
+    .footer-container .column-middle,
+    .footer-container .column-right {
+        grid-column: 1 / -1;
+        padding: 0;
+        align-items: center;
+    }
+
+    .footer-container .vertical-divider {
+        display: none;
+    }
+
+    .footer-container .column-left::after,
+    .footer-container .column-middle::after {
+        content: '';
+        display: block;
+        border-top: 1px solid var(--divider-color);
+        margin-top: 30px;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .footer-container .logo {
+        position: static;
+        transform: none;
+        margin: 0 auto 10px auto;
+    }
+    
+    .footer-container .company-name {
+        margin-top: 0;
+    }
+
+    .footer-container .description,
+    .footer-container .contact-info,
+    .footer-container .menu,
+    .footer-container .social-section,
+    .footer-container .payment-section {
+        align-self: stretch;
+        padding: 0 10px;
+        text-align: left;
+    }
+
+    .footer-container .social-icons {
+        justify-content: flex-start;
+    }
+    
+    .footer-container .divider-container {
+        align-self: center;
+        margin: 0 auto;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .footer-container .company-name {
+        font-size: 1rem;
+    }
+    
+    .footer-container .description {
+        font-size: 0.85rem;
+    }
+    
+    .footer-container .contact-item {
+        font-size: 0.85rem;
+    }
+    
+    .footer-container .menu-item {
+        font-size: 0.95rem;
+    }
+    
+    .footer-container .social-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+    
+    .footer-container .payment-icon {
+        width: 35px;
+    }
+    
+    .footer-container .footer {
+        font-size: 0.8rem;
+    }
 }
