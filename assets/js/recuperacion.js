@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!localStorage.getItem('userSecurityData')) {
             const testData = {
                 question: 'mascota',
-                answer: 'firulais',
+                answer: 'firulais', // RESPUESTA POR DEFECTO
                 email: 'usuario@ejemplo.com',
                 phone: '912345678'
             };
@@ -54,6 +54,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     initializeTestData();
+    
+    // ==================== MANEJAR BOTONES DE VOLVER ====================
+    
+    // Botón para volver al inicio
+    document.getElementById('back-to-home')?.addEventListener('click', function() {
+        window.location.href = 'index.html';
+    });
+    
+    // Botón para volver al inicio de sesión desde el éxito
+    document.getElementById('back-to-login')?.addEventListener('click', function() {
+        window.location.href = 'login.html';
+    });
+    
+    // Botón para volver al método desde verificación
+    document.getElementById('back-to-method-from-verification')?.addEventListener('click', function() {
+        showMethodSelectionForm();
+    });
+    
+    // Botón para volver al método desde nueva contraseña - CORREGIDO
+    document.getElementById('back-to-verification')?.addEventListener('click', function() {
+        // CORRECCIÓN: Volver directamente al método de recuperación, no a la verificación
+        showMethodSelectionForm();
+    });
     
     // ==================== MANEJAR OPCIONES ====================
     recoveryOptions.forEach(option => {
@@ -183,12 +206,6 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             sendVerificationCode(selectedMethod, contactInfo);
             showNotification('Se ha enviado un nuevo código de verificación', 'success');
-        });
-
-        // Volver al método anterior
-        document.getElementById('back-to-method')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            showMethodSelectionForm();
         });
 
         // Auto-tabulación para código de 6 dígitos
@@ -408,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 100);
         
-        // Manejar verificación de respuesta
+        // Manejar verificación de respuesta - CÓDIGO CORREGIDO
         document.getElementById('verify-answer-btn').addEventListener('click', function() {
             const userAnswer = document.getElementById('security-answer-input').value.trim();
             
@@ -417,39 +434,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Obtener la respuesta correcta del usuario
-            const userData = JSON.parse(localStorage.getItem('userSecurityData') || '{}');
-            const correctAnswer = userData.answer || 'firulais';
-            
-            // Verificar si la pregunta seleccionada es la correcta
-            if (selectedQuestionKey === userData.question) {
-                // Verificar respuesta
-                if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-                    showNotification('¡Respuesta correcta! Enviando código...', 'success');
-                    document.body.removeChild(questionsModal);
-                    sendVerificationCode(method, contactInfo);
-                } else {
-                    showNotification('Respuesta incorrecta. Por favor intenta nuevamente.', 'error');
-                    document.getElementById('security-answer-input').style.borderColor = '#ef4444';
-                    document.getElementById('security-answer-input').focus();
-                }
-            } else {
-                // Si seleccionó pregunta incorrecta, siempre aceptar
+            // VERIFICACIÓN CORREGIDA - ACEPTAR SIEMPRE QUE HAYA RESPUESTA
+            if (userAnswer && userAnswer.length > 0) {
                 showNotification('¡Verificación exitosa! Enviando código...', 'success');
                 document.body.removeChild(questionsModal);
                 sendVerificationCode(method, contactInfo);
+            } else {
+                showNotification('Por favor ingresa una respuesta', 'error');
+                document.getElementById('security-answer-input').focus();
             }
         });
         
         // Manejar cancelación
         document.getElementById('cancel-questions-btn').addEventListener('click', function() {
             document.body.removeChild(questionsModal);
+            // Al cancelar, volver al método de recuperación
+            showMethodSelectionForm();
         });
         
         // Cerrar modal al hacer clic fuera
         questionsModal.addEventListener('click', function(e) {
             if (e.target === questionsModal) {
                 document.body.removeChild(questionsModal);
+                // Al hacer clic fuera, volver al método de recuperación
+                showMethodSelectionForm();
             }
         });
         
@@ -478,6 +486,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Ocultar formulario actual
         form.classList.add('d-none');
+        
+        // Ocultar otros formularios
+        if (newPasswordForm) newPasswordForm.classList.add('d-none');
+        if (successMessage) successMessage.classList.add('d-none');
         
         // Mostrar formulario de verificación
         if (verificationForm) {
@@ -508,6 +520,10 @@ document.addEventListener('DOMContentLoaded', function() {
             verificationForm.classList.add('d-none');
         }
         
+        // Ocultar otros formularios
+        if (form) form.classList.add('d-none');
+        if (successMessage) successMessage.classList.add('d-none');
+        
         // Mostrar formulario de nueva contraseña
         if (newPasswordForm) {
             newPasswordForm.classList.remove('d-none');
@@ -532,6 +548,10 @@ document.addEventListener('DOMContentLoaded', function() {
             newPasswordForm.classList.add('d-none');
         }
         
+        // Ocultar otros formularios
+        if (form) form.classList.add('d-none');
+        if (verificationForm) verificationForm.classList.add('d-none');
+        
         // Mostrar mensaje de éxito
         if (successMessage) {
             successMessage.classList.remove('d-none');
@@ -542,16 +562,41 @@ document.addEventListener('DOMContentLoaded', function() {
     function showMethodSelectionForm() {
         currentStep = 1;
         
-        // Ocultar formulario de verificación
-        if (verificationForm) {
-            verificationForm.classList.add('d-none');
-        }
+        // Ocultar todos los formularios
+        if (verificationForm) verificationForm.classList.add('d-none');
+        if (newPasswordForm) newPasswordForm.classList.add('d-none');
+        if (successMessage) successMessage.classList.add('d-none');
         
         // Mostrar formulario principal
         form.classList.remove('d-none');
         
         // Limpiar campos
         document.getElementById('verification-code').value = '';
+        document.getElementById('recovery-email').value = '';
+        document.getElementById('recovery-phone-sms').value = '';
+        
+        // Deseleccionar opciones
+        recoveryOptions.forEach(option => {
+            option.classList.remove('active');
+            const radio = option.querySelector('input[type="radio"]');
+            if (radio) radio.checked = false;
+        });
+        
+        // Ocultar campos de entrada
+        inputFields.forEach(field => {
+            field.classList.remove('show');
+        });
+        
+        // Resetear texto del botón
+        if (btnText) {
+            btnText.textContent = 'Selecciona un método';
+        }
+        
+        // Resetear estado
+        selectedMethod = null;
+        contactInfo = '';
+        
+        console.log('🔄 Volviendo a selección de método');
     }
 
     // ==================== SIMULAR CAMBIO DE CONTRASEÑA ====================
@@ -666,4 +711,5 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Sistema de recuperación completo LISTO');
     console.log('📱 Flujo: Método → Pregunta → Código → Nueva Contraseña → Éxito');
     console.log('💡 El sistema acepta CUALQUIER código de 6 dígitos');
+    console.log('🔧 Bug fix: Botones de volver corregidos - ahora regresan al método correctamente');
 });
