@@ -1,4 +1,4 @@
-/* login-styles.css */
+/* assets/css/recuperacion.css */
 :root {
     --primary-blue: #101745;   /* Azul oscuro principal */
     --secondary-blue: #0d2c81; /* Azul medio */
@@ -46,8 +46,8 @@ body {
 }
 
 .logo-placeholder a img {
-    width: 200px; /* Corregido: agregué 'px' */
-    height: 200px; /* Corregido: agregué 'px' */
+    width: 200px;
+    height: 200px;
     object-fit: contain;
 }
 
@@ -116,6 +116,7 @@ body {
 .btn-success:focus {
     box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
 }
+
 /* ===== BOTÓN SOLO ICONO VOLVER AL INICIO ===== */
 .btn-volver {
     position: absolute;
@@ -133,8 +134,6 @@ body {
     color: var(--secondary-blue);
     transform: scale(1.2);
 }
-
-
 
 /* ===== CHECKBOX ===== */
 .form-check-input:checked {
@@ -175,7 +174,7 @@ body {
 }
 
 .was-validated .form-control:valid {
-    border-color: var(--accent-blue); /* Corregido: usé --accent-blue en lugar de --primary-green */
+    border-color: var(--accent-blue);
 }
 
 .was-validated .input-group .form-control:invalid ~ .input-group-text {
@@ -183,7 +182,7 @@ body {
 }
 
 .was-validated .input-group .form-control:valid ~ .input-group-text {
-    border-color: var(--accent-blue); /* Corregido: usé --accent-blue en lugar de --primary-green */
+    border-color: var(--accent-blue);
 }
 
 /* ===== ICONOS SOCIALES ===== */
@@ -263,6 +262,7 @@ button:focus,
     outline: 2px solid var(--accent-blue);
     outline-offset: 2px;
 }
+
 /* ==================== ESTILOS PARA RECUPERACIÓN MULTI-OPCIÓN ==================== */
 
 /* Opciones de recuperación */
@@ -519,156 +519,151 @@ button:focus,
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
-/* ===== ESTILOS PARA REGISTRO CON PREGUNTA SECRETA ===== */
 
-.password-strength {
-    height: 5px;
-    border-radius: 5px;
-    margin-top: 5px;
+/* ===== ESTILOS PARA VERIFICACIÓN Y NUEVA CONTRASEÑA ===== */
+
+/* Iconos de verificación */
+.verification-icon, 
+.password-icon, 
+.success-icon {
+    font-size: 3rem;
+    color: var(--accent-blue);
+    margin-bottom: 1rem;
+}
+
+/* Campo de código de verificación */
+#verification-code {
+    letter-spacing: 8px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 12px 20px;
+}
+
+/* Botón para mostrar/ocultar contraseña */
+.toggle-password {
+    border-left: none;
+    background-color: #f8f9fa;
+    border-color: #e0e0e0;
+    color: #666;
     transition: all 0.3s ease;
 }
 
-.strength-weak {
-    background-color: #dc3545;
-    width: 25%;
+.toggle-password:hover {
+    background-color: #e9ecef;
+    border-color: #c0c0c0;
+    color: #333;
 }
 
-.strength-medium {
-    background-color: #ffc107;
-    width: 50%;
+/* Mensaje de éxito */
+#success-message {
+    padding: 2rem 0;
 }
 
-.strength-strong {
-    background-color: #198754;
-    width: 100%;
-}
-
-.requirement {
-    font-size: 0.85rem;
-    color: #6c757d;
-    transition: all 0.3s ease;
-}
-
-.requirement.met {
-    color: #198754;
-}
-
-.requirement i {
-    margin-right: 5px;
-    transition: all 0.3s ease;
-}
-
-/* Estilos para los campos de seguridad */
-.security-field {
+.success-icon {
+    font-size: 4rem;
+    color: #28a745;
     margin-bottom: 1.5rem;
 }
 
-.security-field .form-text {
-    font-size: 0.8rem;
-    color: #6c757d;
-    margin-top: 0.25rem;
-}
-
-/* Mejoras responsive */
-@media (max-width: 768px) {
-    .login-card {
-        padding: 1.5rem;
-        margin: 1rem;
-    }
-    
-    .col-md-8 {
-        padding: 0 10px;
-    }
-}
-/* ===== ESTILOS PARA LISTADO DE PREGUNTAS ===== */
-
-.security-questions-modal .questions-card {
-    animation: slideUp 0.4s ease;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.question-item {
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    cursor: pointer;
+/* Enlace para reenviar código */
+#resend-code {
+    font-size: 0.9rem;
     transition: all 0.3s ease;
-    padding: 1rem;
 }
 
-.question-item:hover {
-    border-color: #0664a8;
-    background-color: #f8fbff;
-    transform: translateY(-2px);
+#resend-code:hover {
+    text-decoration: underline !important;
 }
 
-.question-item.active,
-.question-item.active-question {
-    border-color: #0664a8;
-    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-    box-shadow: 0 4px 12px rgba(6, 100, 168, 0.15);
+/* Transiciones entre formularios */
+#forgotPasswordForm,
+#verificationForm,
+#newPasswordForm,
+#success-message {
+    transition: all 0.4s ease;
 }
 
-.active-question {
-    border-left: 4px solid #10b981;
-}
-
-.selected-question-display {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-    border: 2px solid rgba(255,255,255,0.2);
-}
-
-.questions-list {
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-/* Scrollbar personalizado */
-.questions-list::-webkit-scrollbar {
-    width: 6px;
-}
-
-.questions-list::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-.questions-list::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 3px;
-}
-
-.questions-list::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
-
-/* Badge para pregunta del usuario */
-.badge {
-    font-size: 0.7rem;
-    padding: 0.35em 0.65em;
-}
-
-/* Responsive */
+/* Mejoras responsive para formularios adicionales */
 @media (max-width: 768px) {
-    .security-questions-modal {
-        padding: 10px;
+    .verification-icon,
+    .password-icon,
+    .success-icon {
+        font-size: 2.5rem;
     }
     
-    .questions-card {
-        padding: 1.5rem !important;
+    #verification-code {
+        font-size: 1.1rem;
+        letter-spacing: 6px;
+        padding: 10px 15px;
     }
     
-    .question-item {
-        padding: 0.75rem;
+    #success-message {
+        padding: 1.5rem 0;
     }
+}
+
+/* Estados de deshabilitado */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Efectos de hover para enlaces de navegación */
+#back-to-method {
+    transition: all 0.3s ease;
+}
+
+#back-to-method:hover {
+    transform: translateX(-3px);
+}
+
+/* Indicadores de progreso (opcional) */
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.progress-steps::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e9ecef;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6c757d;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    border-color: var(--accent-blue);
+    background: var(--accent-blue);
+    color: white;
+}
+
+.step.completed {
+    border-color: #28a745;
+    background: #28a745;
+    color: white;
 }
