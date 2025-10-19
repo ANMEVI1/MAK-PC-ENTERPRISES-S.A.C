@@ -1,10 +1,13 @@
-/* assets/css/recuperacion.css */
+/* assets/css/login.css */
 :root {
     --primary-blue: #101745;   /* Azul oscuro principal */
     --secondary-blue: #0d2c81; /* Azul medio */
     --accent-blue: #0664a8;    /* Azul vivo */
     --bg-light: #1697be;       /* Azul claro (fondos) */
     --shadow: rgba(0, 0, 0, 0.1); /* Sombras */
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
 }
 
 /* ===== ESTILOS BASE ===== */
@@ -33,6 +36,10 @@ body {
     position: relative;
     overflow: hidden;
     animation: fadeInUp 0.6s ease-out;
+}
+
+.login-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
 /* ===== LOGO ===== */
@@ -117,24 +124,6 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
 }
 
-/* ===== BOTÓN SOLO ICONO VOLVER AL INICIO ===== */
-.btn-volver {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    color: var(--accent-blue);
-    z-index: 10;
-    transition: color 0.3s ease;
-}
-
-.btn-volver:hover {
-    color: var(--secondary-blue);
-    transform: scale(1.2);
-}
-
 /* ===== CHECKBOX ===== */
 .form-check-input:checked {
     background-color: var(--accent-blue);
@@ -168,49 +157,224 @@ body {
     }
 }
 
-/* ===== ESTADOS DE VALIDACIÓN ===== */
-.was-validated .form-control:invalid {
-    border-color: #dc3545;
+/* ===== ESTILOS DE CONTRASEÑA MEJORADOS ===== */
+.password-container {
+    position: relative;
 }
 
-.was-validated .form-control:valid {
-    border-color: var(--accent-blue);
+.password-requirements {
+    display: none;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    animation: fadeIn 0.3s ease;
 }
 
-.was-validated .input-group .form-control:invalid ~ .input-group-text {
-    border-color: #dc3545;
+.password-requirements.show {
+    display: block;
 }
 
-.was-validated .input-group .form-control:valid ~ .input-group-text {
-    border-color: var(--accent-blue);
+.password-requirements h6 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
 }
 
-/* ===== ICONOS SOCIALES ===== */
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 15px;
+.requirement-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.social-icons a {
-    font-size: 18px;
-    color: #666;
-    transition: all 0.3s ease;
-    text-decoration: none;
+.requirement {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #f8f9fa;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    padding: 5px 0;
+    transition: all 0.3s ease;
 }
 
-.social-icons a:hover {
-    color: #000;
-    transform: scale(1.2);
-    background-color: #e9ecef;
+.requirement:last-child {
+    margin-bottom: 0;
+}
+
+.requirement i {
+    margin-right: 10px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.requirement.met {
+    color: var(--success-color);
+}
+
+.requirement:not(.met) {
+    color: var(--danger-color);
+}
+
+.requirement.met i {
+    color: var(--success-color);
+}
+
+.requirement:not(.met) i {
+    color: var(--danger-color);
+}
+
+.password-strength {
+    height: 6px;
+    border-radius: 3px;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+    width: 0;
+}
+
+.strength-weak {
+    width: 33%;
+    background-color: var(--danger-color);
+}
+
+.strength-medium {
+    width: 66%;
+    background-color: var(--warning-color);
+}
+
+.strength-strong {
+    width: 100%;
+    background-color: var(--success-color);
+}
+
+.field-valid {
+    border-color: var(--success-color) !important;
+    background-color: rgba(25, 135, 84, 0.05);
+}
+
+.field-invalid {
+    border-color: var(--danger-color) !important;
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.input-group .field-valid ~ .input-group-text {
+    border-color: var(--success-color) !important;
+    background-color: rgba(25, 135, 84, 0.1) !important;
+}
+
+.input-group .field-invalid ~ .input-group-text {
+    border-color: var(--danger-color) !important;
+    background-color: rgba(220, 53, 69, 0.1) !important;
+}
+
+/* ===== ESTILOS PARA CONFIRMACIÓN DE CONTRASEÑA ===== */
+.password-match-feedback {
+    display: none;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.password-match-feedback.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.password-match-feedback.matching {
+    background-color: rgba(25, 135, 84, 0.1);
+    color: var(--success-color);
+    border: 1px solid rgba(25, 135, 84, 0.3);
+}
+
+.password-match-feedback.not-matching {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--danger-color);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+/* ===== BOTÓN INTELIGENTE ===== */
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d, #868e96);
+    border: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #6c757d, #868e96);
+    transform: none;
+    box-shadow: none;
+}
+
+/* ===== FEEDBACK DE FORMULARIO ===== */
+.form-feedback {
+    font-size: 0.85rem;
+    margin-top: 5px;
+    transition: all 0.3s ease;
+}
+
+.form-feedback.valid {
+    color: var(--success-color);
+}
+
+.form-feedback.invalid {
+    color: var(--danger-color);
+}
+
+/* ===== ANIMACIONES ADICIONALES ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.custom-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--success-color);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 10000;
+    font-weight: 500;
+    max-width: 400px;
+    animation: slideInRight 0.3s ease;
+}
+
+.custom-notification.error {
+    background: var(--danger-color);
 }
 
 /* ===== RESPONSIVE ===== */
@@ -236,10 +400,12 @@ body {
         height: 120px;
     }
     
-    .social-icons a {
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
+    .password-requirements {
+        padding: 12px;
+    }
+    
+    .requirement {
+        font-size: 0.8rem;
     }
 }
 
@@ -247,8 +413,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .login-card,
     .btn-success,
-    .form-control,
-    .social-icons a {
+    .form-control {
         animation: none;
         transition: none;
     }
@@ -261,409 +426,4 @@ button:focus,
 .form-check-input:focus {
     outline: 2px solid var(--accent-blue);
     outline-offset: 2px;
-}
-
-/* ==================== ESTILOS PARA RECUPERACIÓN MULTI-OPCIÓN ==================== */
-
-/* Opciones de recuperación */
-.recovery-options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.recovery-option {
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 18px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    background: white;
-    position: relative;
-    overflow: hidden;
-}
-
-.recovery-option::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    transition: left 0.5s ease;
-}
-
-.recovery-option:hover::before {
-    left: 100%;
-}
-
-.recovery-option:hover {
-    border-color: #c0c0c0;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.recovery-option.active {
-    border-color: #0664a8;
-    background: linear-gradient(135deg, #f8fbff, #e3f2fd);
-    box-shadow: 0 5px 15px rgba(6, 100, 168, 0.15);
-}
-
-.recovery-option input[type="radio"] {
-    margin-right: 15px;
-    transform: scale(1.2);
-    accent-color: #0664a8;
-}
-
-.recovery-icon {
-    font-size: 1.5rem;
-    margin-right: 15px;
-    width: 40px;
-    text-align: center;
-}
-
-.recovery-details {
-    flex: 1;
-}
-
-.recovery-title {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #333;
-    margin-bottom: 4px;
-}
-
-.recovery-description {
-    font-size: 0.9rem;
-    color: #666;
-    margin: 0;
-    line-height: 1.4;
-}
-
-/* Campos de entrada dinámicos */
-.input-field {
-    display: none;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.4s ease;
-}
-
-.input-field.show {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-#input-container {
-    min-height: 80px;
-    transition: all 0.3s ease;
-}
-
-/* Estilos para los grupos de entrada */
-.input-group {
-    margin-bottom: 0;
-}
-
-.input-group-text {
-    border-radius: 8px 0 0 8px !important;
-    border-right: none;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-}
-
-.form-control {
-    border-radius: 0 8px 8px 0 !important;
-    border-left: none;
-    padding: 12px 15px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: #0664a8;
-    box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
-}
-
-.input-group:focus-within .input-group-text {
-    border-color: #0664a8;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-}
-
-/* Botón de envío mejorado */
-.btn-success {
-    background: linear-gradient(135deg, #0664a8, #1697be);
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-success:hover {
-    background: linear-gradient(135deg, #05518a, #1380a5);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(6, 100, 168, 0.4);
-}
-
-.btn-success:active {
-    transform: translateY(0);
-}
-
-/* Animaciones */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.input-field.show {
-    animation: slideIn 0.4s ease-out;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .recovery-option {
-        padding: 15px;
-    }
-    
-    .recovery-icon {
-        font-size: 1.3rem;
-        margin-right: 12px;
-        width: 35px;
-    }
-    
-    .recovery-title {
-        font-size: 1rem;
-    }
-    
-    .recovery-description {
-        font-size: 0.85rem;
-    }
-    
-    .col-md-8 {
-        padding: 0 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .recovery-option {
-        padding: 12px 15px;
-    }
-    
-    .recovery-icon {
-        font-size: 1.2rem;
-        margin-right: 10px;
-        width: 30px;
-    }
-    
-    .recovery-option input[type="radio"] {
-        margin-right: 10px;
-        transform: scale(1.1);
-    }
-}
-
-/* Estados de validación */
-.was-validated .form-control:invalid {
-    border-color: #dc3545;
-}
-
-.was-validated .form-control:valid {
-    border-color: #28a745;
-}
-
-.was-validated .input-group .form-control:invalid ~ .input-group-text {
-    border-color: #dc3545;
-}
-
-.was-validated .input-group .form-control:valid ~ .input-group-text {
-    border-color: #28a745;
-}
-
-/* Mejoras de accesibilidad */
-.recovery-option:focus-within {
-    outline: 2px solid #0664a8;
-    outline-offset: 2px;
-}
-
-/* Efecto de carga para el botón */
-.btn-loading {
-    position: relative;
-    color: transparent !important;
-}
-
-.btn-loading::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 50%;
-    left: 50%;
-    margin: -10px 0 0 -10px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    border-right-color: transparent;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* ===== ESTILOS PARA VERIFICACIÓN Y NUEVA CONTRASEÑA ===== */
-
-/* Iconos de verificación */
-.verification-icon, 
-.password-icon, 
-.success-icon {
-    font-size: 3rem;
-    color: var(--accent-blue);
-    margin-bottom: 1rem;
-}
-
-/* Campo de código de verificación */
-#verification-code {
-    letter-spacing: 8px;
-    font-weight: 600;
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 12px 20px;
-}
-
-/* Botón para mostrar/ocultar contraseña */
-.toggle-password {
-    border-left: none;
-    background-color: #f8f9fa;
-    border-color: #e0e0e0;
-    color: #666;
-    transition: all 0.3s ease;
-}
-
-.toggle-password:hover {
-    background-color: #e9ecef;
-    border-color: #c0c0c0;
-    color: #333;
-}
-
-/* Mensaje de éxito */
-#success-message {
-    padding: 2rem 0;
-}
-
-.success-icon {
-    font-size: 4rem;
-    color: #28a745;
-    margin-bottom: 1.5rem;
-}
-
-/* Enlace para reenviar código */
-#resend-code {
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-#resend-code:hover {
-    text-decoration: underline !important;
-}
-
-/* Transiciones entre formularios */
-#forgotPasswordForm,
-#verificationForm,
-#newPasswordForm,
-#success-message {
-    transition: all 0.4s ease;
-}
-
-/* Mejoras responsive para formularios adicionales */
-@media (max-width: 768px) {
-    .verification-icon,
-    .password-icon,
-    .success-icon {
-        font-size: 2.5rem;
-    }
-    
-    #verification-code {
-        font-size: 1.1rem;
-        letter-spacing: 6px;
-        padding: 10px 15px;
-    }
-    
-    #success-message {
-        padding: 1.5rem 0;
-    }
-}
-
-/* Estados de deshabilitado */
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-}
-
-/* Efectos de hover para enlaces de navegación */
-#back-to-method {
-    transition: all 0.3s ease;
-}
-
-#back-to-method:hover {
-    transform: translateX(-3px);
-}
-
-/* Indicadores de progreso (opcional) */
-.progress-steps {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    position: relative;
-}
-
-.progress-steps::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #e9ecef;
-    transform: translateY(-50%);
-    z-index: 1;
-}
-
-.step {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: white;
-    border: 2px solid #e9ecef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #6c757d;
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s ease;
-}
-
-.step.active {
-    border-color: var(--accent-blue);
-    background: var(--accent-blue);
-    color: white;
-}
-
-.step.completed {
-    border-color: #28a745;
-    background: #28a745;
-    color: white;
 }
