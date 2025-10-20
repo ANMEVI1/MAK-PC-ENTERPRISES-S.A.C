@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validateSecurityAnswer() {
         const answer = document.getElementById('security-answer').value.trim();
-        const feedback = document.getElementById('security-answer-feedback') || createSecurityAnswerFeedback();
+        const feedback = document.getElementById('security-answer-feedback');
         
         if (answer.length >= 2) {
             setFieldStatus('security-answer', true);
@@ -117,15 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
             feedback.className = 'form-text text-danger';
             return false;
         }
-    }
-
-    function createSecurityAnswerFeedback() {
-        const securityAnswerContainer = document.querySelector('.mb-4');
-        const feedback = document.createElement('div');
-        feedback.id = 'security-answer-feedback';
-        feedback.className = 'form-text text-muted';
-        securityAnswerContainer.appendChild(feedback);
-        return feedback;
     }
 
     function validateTerms() {
