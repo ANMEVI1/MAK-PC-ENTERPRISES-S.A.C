@@ -55,6 +55,165 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     initializeTestData();
     
+    // ==================== VALIDACIÓN DE CONTRASEÑA PARA RECUPERACIÓN ====================
+    function initializePasswordValidation() {
+        const newPasswordInput = document.getElementById('new-password');
+        const confirmNewPasswordInput = document.getElementById('confirm-new-password');
+        const newPasswordStrength = document.getElementById('new-password-strength');
+        const newPasswordRequirements = document.getElementById('new-password-requirements');
+        const newPasswordMatchFeedback = document.getElementById('new-password-match-feedback');
+        const newPasswordSubmitBtn = document.getElementById('new-password-submit-btn');
+
+        // Elementos del checklist
+        const newLengthReq = document.getElementById('new-length-req');
+        const newUpperReq = document.getElementById('new-upper-req');
+        const newNumberReq = document.getElementById('new-number-req');
+
+        // Estados de validación
+        let isNewPasswordStrong = false;
+        let isNewPasswordMatch = false;
+
+        if (!newPasswordInput) return;
+
+        function validateNewPasswordStrength(password) {
+            let strength = 0;
+            
+            // Verificar longitud
+            const hasLength = password.length >= 8;
+            if (hasLength) {
+                strength++;
+                newLengthReq.innerHTML = '<i class="fas fa-check"></i> Mínimo 8 caracteres';
+                newLengthReq.classList.add('met');
+            } else {
+                newLengthReq.innerHTML = '<i class="fas fa-times"></i> Mínimo 8 caracteres';
+                newLengthReq.classList.remove('met');
+            }
+            
+            // Verificar mayúsculas
+            const hasUpper = /[A-Z]/.test(password);
+            if (hasUpper) {
+                strength++;
+                newUpperReq.innerHTML = '<i class="fas fa-check"></i> Al menos una mayúscula';
+                newUpperReq.classList.add('met');
+            } else {
+                newUpperReq.innerHTML = '<i class="fas fa-times"></i> Al menos una mayúscula';
+                newUpperReq.classList.remove('met');
+            }
+            
+            // Verificar números
+            const hasNumber = /[0-9]/.test(password);
+            if (hasNumber) {
+                strength++;
+                newNumberReq.innerHTML = '<i class="fas fa-check"></i> Al menos un número';
+                newNumberReq.classList.add('met');
+            } else {
+                newNumberReq.innerHTML = '<i class="fas fa-times"></i> Al menos un número';
+                newNumberReq.classList.remove('met');
+            }
+
+            // Mostrar/ocultar requerimientos
+            if (password.length > 0) {
+                newPasswordRequirements.classList.add('show');
+            } else {
+                newPasswordRequirements.classList.remove('show');
+            }
+
+            // Actualizar barra de fortaleza
+            updateNewPasswordStrengthBar(strength);
+            
+            // Actualizar estado del campo
+            if (password.length > 0) {
+                setNewFieldStatus('new-password', isNewPasswordStrong);
+            } else {
+                setNewFieldStatus('new-password', false);
+            }
+            
+            isNewPasswordStrong = strength === 3;
+            updateNewPasswordSubmitButton();
+            return isNewPasswordStrong;
+        }
+
+        function updateNewPasswordStrengthBar(strength) {
+            newPasswordStrength.className = 'password-strength';
+            if (strength === 1) {
+                newPasswordStrength.classList.add('strength-weak');
+            } else if (strength === 2) {
+                newPasswordStrength.classList.add('strength-medium');
+            } else if (strength === 3) {
+                newPasswordStrength.classList.add('strength-strong');
+            }
+        }
+
+        function validateNewPasswordMatch() {
+            const password = newPasswordInput.value;
+            const confirmPassword = confirmNewPasswordInput.value;
+            
+            if (password === confirmPassword && confirmPassword !== '') {
+                newPasswordMatchFeedback.innerHTML = '<i class="fas fa-check me-2"></i>Las contraseñas coinciden';
+                newPasswordMatchFeedback.className = 'password-match-feedback show matching';
+                setNewFieldStatus('confirm-new-password', true);
+                isNewPasswordMatch = true;
+            } else if (confirmPassword !== '') {
+                newPasswordMatchFeedback.innerHTML = '<i class="fas fa-times me-2"></i>Las contraseñas no coinciden';
+                newPasswordMatchFeedback.className = 'password-match-feedback show not-matching';
+                setNewFieldStatus('confirm-new-password', false);
+                isNewPasswordMatch = false;
+            } else {
+                newPasswordMatchFeedback.className = 'password-match-feedback';
+                setNewFieldStatus('confirm-new-password', false);
+                isNewPasswordMatch = false;
+            }
+            
+            updateNewPasswordSubmitButton();
+        }
+
+        function setNewFieldStatus(fieldId, isValid) {
+            const field = document.getElementById(fieldId);
+            const inputGroup = field.closest('.input-group');
+            
+            if (isValid) {
+                field.classList.add('field-valid');
+                field.classList.remove('field-invalid');
+                if (inputGroup) {
+                    inputGroup.querySelector('.input-group-text').style.borderColor = 'var(--success-color)';
+                    inputGroup.querySelector('.input-group-text').style.backgroundColor = 'rgba(25, 135, 84, 0.1)';
+                }
+            } else {
+                field.classList.add('field-invalid');
+                field.classList.remove('field-valid');
+                if (inputGroup) {
+                    inputGroup.querySelector('.input-group-text').style.borderColor = 'var(--danger-color)';
+                    inputGroup.querySelector('.input-group-text').style.backgroundColor = 'rgba(220, 53, 69, 0.1)';
+                }
+            }
+        }
+
+        function updateNewPasswordSubmitButton() {
+            const isFormValid = isNewPasswordStrong && isNewPasswordMatch;
+            
+            newPasswordSubmitBtn.disabled = !isFormValid;
+            
+            if (isFormValid) {
+                newPasswordSubmitBtn.classList.remove('btn-secondary');
+                newPasswordSubmitBtn.classList.add('btn-success');
+            } else {
+                newPasswordSubmitBtn.classList.remove('btn-success');
+                newPasswordSubmitBtn.classList.add('btn-secondary');
+            }
+        }
+
+        // Event listeners para validación de nueva contraseña
+        newPasswordInput.addEventListener('input', function() {
+            validateNewPasswordStrength(this.value);
+            validateNewPasswordMatch();
+        });
+        
+        confirmNewPasswordInput.addEventListener('input', validateNewPasswordMatch);
+
+        // Inicializar estado del botón
+        updateNewPasswordSubmitButton();
+    }
+    
     // ==================== MANEJAR BOTONES DE VOLVER ====================
     
     // Botón para volver al inicio
@@ -225,24 +384,18 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             const newPassword = document.getElementById('new-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
+            const confirmPassword = document.getElementById('confirm-new-password').value;
             
             // Validaciones de contraseña
-            if (newPassword.length < 6) {
-                showNotification('La contraseña debe tener al menos 6 caracteres', 'error');
+            if (!isNewPasswordStrong(newPassword)) {
+                showNotification('La contraseña no cumple con todos los requerimientos', 'error');
                 document.getElementById('new-password').focus();
                 return;
             }
             
             if (newPassword !== confirmPassword) {
                 showNotification('Las contraseñas no coinciden', 'error');
-                document.getElementById('confirm-password').focus();
-                return;
-            }
-
-            // Verificar fortaleza de contraseña (opcional)
-            if (!isPasswordStrong(newPassword)) {
-                showNotification('La contraseña debe incluir mayúsculas, minúsculas y números', 'warning');
+                document.getElementById('confirm-new-password').focus();
                 return;
             }
             
@@ -267,30 +420,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-
-        // Validación en tiempo real de coincidencia de contraseñas
-        const confirmPasswordInput = document.getElementById('confirm-password');
-        const passwordMatchFeedback = document.getElementById('password-match-feedback');
-        
-        if (confirmPasswordInput && passwordMatchFeedback) {
-            confirmPasswordInput.addEventListener('input', function() {
-                const newPassword = document.getElementById('new-password').value;
-                const confirmPassword = this.value;
-                
-                if (confirmPassword && newPassword !== confirmPassword) {
-                    this.style.borderColor = '#ef4444';
-                    passwordMatchFeedback.innerHTML = '<i class="fas fa-times me-2"></i>Las contraseñas no coinciden';
-                    passwordMatchFeedback.className = 'password-match-feedback show not-matching';
-                } else if (confirmPassword && newPassword === confirmPassword) {
-                    this.style.borderColor = '#10b981';
-                    passwordMatchFeedback.innerHTML = '<i class="fas fa-check me-2"></i>Las contraseñas coinciden';
-                    passwordMatchFeedback.className = 'password-match-feedback show matching';
-                } else {
-                    this.style.borderColor = '';
-                    passwordMatchFeedback.className = 'password-match-feedback';
-                }
-            });
-        }
     }
     
     // ==================== MOSTRAR LISTADO DE PREGUNTAS ====================
@@ -514,7 +643,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Limpiar campos
             document.getElementById('new-password').value = '';
-            document.getElementById('confirm-password').value = '';
+            document.getElementById('confirm-new-password').value = '';
+            
+            // Inicializar validación de contraseña
+            initializePasswordValidation();
             
             // Enfocar campo de nueva contraseña
             setTimeout(() => {
@@ -622,10 +754,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return re.test(phone);
     }
     
-    function isPasswordStrong(password) {
-        // Mínimo 6 caracteres, al menos una mayúscula, una minúscula y un número
-        const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-        return strongRegex.test(password);
+    function isNewPasswordStrong(password) {
+        // Mínimo 8 caracteres, al menos una mayúscula y un número
+        const hasLength = password.length >= 8;
+        const hasUpper = /[A-Z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        
+        return hasLength && hasUpper && hasNumber;
     }
     
     // ==================== FUNCIÓN DE NOTIFICACIONES ====================
@@ -657,5 +792,5 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Sistema de recuperación completo LISTO');
     console.log('📱 Flujo: Método → Pregunta → Código → Nueva Contraseña → Éxito');
     console.log('💡 El sistema acepta CUALQUIER código de 6 dígitos');
-    console.log('🔧 Bug fix: Botones de volver corregidos - ahora regresan al método correctamente');
+    console.log('🔐 Requerimientos de contraseña implementados en recuperación');
 });
