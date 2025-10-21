@@ -1,4 +1,3 @@
-/* assets/css/login.css */
 :root {
     --primary-blue: #101745;   /* Azul oscuro principal */
     --secondary-blue: #0d2c81; /* Azul medio */
@@ -173,6 +172,36 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ===== ICONOS SOCIALES ===== */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-blue), var(--bg-light));
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.social-icons a:hover {
+    background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(6, 100, 168, 0.4);
 }
 
 /* ===== ESTILOS DE CONTRASEÑA MEJORADOS ===== */
@@ -395,7 +424,7 @@ body {
     background: var(--danger-color);
 }
 
-/* ===== ESTILOS PARA RECUPERACIÓN MULTI-OPCIÓN ===== */
+/* ===== ESTILOS PARA RECUPERACIÓN DE CONTRASEÑA ===== */
 
 /* Opciones de recuperación */
 .recovery-options {
@@ -496,100 +525,6 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Estilos para los grupos de entrada */
-.input-group {
-    margin-bottom: 0;
-}
-
-.input-group-text {
-    border-radius: 8px 0 0 8px !important;
-    border-right: none;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-}
-
-.form-control {
-    border-radius: 0 8px 8px 0 !important;
-    border-left: none;
-    padding: 12px 15px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
-}
-
-.input-group:focus-within .input-group-text {
-    border-color: var(--accent-blue);
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-}
-
-/* Botón de envío mejorado */
-.btn-success {
-    background: linear-gradient(135deg, var(--accent-blue), var(--bg-light));
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-success:hover {
-    background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(6, 100, 168, 0.4);
-}
-
-.btn-success:active {
-    transform: translateY(0);
-}
-
-/* Animaciones */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.input-field.show {
-    animation: slideIn 0.4s ease-out;
-}
-
-/* Efecto de carga para el botón */
-.btn-loading {
-    position: relative;
-    color: transparent !important;
-}
-
-.btn-loading::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 50%;
-    left: 50%;
-    margin: -10px 0 0 -10px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    border-right-color: transparent;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* ===== ESTILOS PARA VERIFICACIÓN Y NUEVA CONTRASEÑA ===== */
-
 /* Iconos de verificación */
 .verification-icon, 
 .password-icon, 
@@ -668,140 +603,218 @@ body {
     transform: translateX(-3px);
 }
 
-/* Indicadores de progreso (opcional) */
-.progress-steps {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    position: relative;
-}
+/* ===== ESTILOS PARA PREGUNTAS DE SEGURIDAD ===== */
 
-.progress-steps::before {
-    content: '';
-    position: absolute;
-    top: 50%;
+/* Modal de preguntas de seguridad */
+.security-questions-modal {
+    position: fixed;
+    top: 0;
     left: 0;
-    right: 0;
-    height: 2px;
-    background: #e9ecef;
-    transform: translateY(-50%);
-    z-index: 1;
-}
-
-.step {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: white;
-    border: 2px solid #e9ecef;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #6c757d;
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s ease;
+    z-index: 9999;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.step.active {
-    border-color: var(--accent-blue);
-    background: var(--accent-blue);
-    color: white;
+.questions-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: fadeInUp 0.4s ease-out;
 }
 
-.step.completed {
-    border-color: var(--success-color);
-    background: var(--success-color);
-    color: white;
+.questions-card h4 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 1rem;
 }
 
-/* ===== MEJORAS ESPECÍFICAS PARA RECUPERACIÓN ===== */
-
-/* Contenedor de formularios de recuperación */
-.recovery-form-container {
-    position: relative;
-    min-height: 300px;
+.questions-card .text-success {
+    color: var(--accent-blue) !important;
 }
 
-/* Botones de navegación entre pasos */
-.recovery-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+/* Información de seguridad */
+.security-info {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--accent-blue);
 }
 
-/* Campos de entrada con validación específica */
-.email-input .form-feedback,
-.phone-input .form-feedback,
-.security-input .form-feedback {
-    font-size: 0.8rem;
-    margin-top: 5px;
-    display: block;
+.security-info p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
 }
 
-/* Estados de carga específicos para recuperación */
-.recovery-loading {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid #ffffff;
-    border-radius: 50%;
-    border-top-color: transparent;
-    animation: spin 1s ease-in-out infinite;
-    margin-right: 10px;
+.security-info strong {
+    color: #333;
 }
 
-/* Contador para reenvío de código */
-.resend-counter {
-    font-size: 0.8rem;
-    color: #666;
-    margin-top: 10px;
-}
-
-/* Estilos para preguntas de seguridad */
-.security-question-container {
+/* Lista de preguntas */
+.questions-list {
     margin-bottom: 1.5rem;
 }
 
-.security-question {
+.questions-list h5 {
+    color: var(--accent-blue);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.question-item {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 15px;
+    background: white;
+}
+
+.question-item:hover {
+    border-color: var(--accent-blue);
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.question-item.active {
+    border-color: var(--accent-blue);
+    background: linear-gradient(135deg, #f8fbff, #e3f2fd);
+    box-shadow: 0 4px 15px rgba(6, 100, 168, 0.15);
+}
+
+.active-question {
+    border-left: 4px solid var(--success-color);
+}
+
+.question-item p {
+    margin-bottom: 0;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Badge para pregunta del usuario */
+.badge.bg-success {
+    background: linear-gradient(135deg, var(--success-color), #20c997) !important;
+    font-size: 0.7rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Sección de pregunta seleccionada */
+.selected-question-section {
+    margin-bottom: 1.5rem;
+}
+
+.selected-question-section h6 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.selected-question-display {
+    background: linear-gradient(135deg, var(--accent-blue), var(--bg-light));
+    color: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(6, 100, 168, 0.2);
+}
+
+.selected-question-display p {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+/* Sección de respuesta */
+.answer-section .form-label {
     font-weight: 600;
     color: #333;
     margin-bottom: 0.5rem;
-    font-size: 1rem;
 }
 
-.security-answer {
-    margin-top: 0.5rem;
+.answer-section .input-group {
+    margin-bottom: 1rem;
 }
 
-/* ===== ICONOS SOCIALES ===== */
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 15px;
+.answer-section .input-group-text {
+    background: #f8f9fa;
+    border-color: #e0e0e0;
 }
 
-.social-icons a {
-    font-size: 18px;
-    color: #666;
+.answer-section .form-control {
+    border-color: #e0e0e0;
+}
+
+.answer-section .form-control:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 0.2rem rgba(6, 100, 168, 0.25);
+}
+
+.answer-section .btn {
+    padding: 12px 20px;
+    font-weight: 600;
     transition: all 0.3s ease;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #f8f9fa;
 }
 
-.social-icons a:hover {
-    color: #000;
-    transform: scale(1.2);
-    background-color: #e9ecef;
+.answer-section .btn-success {
+    background: linear-gradient(135deg, var(--accent-blue), var(--bg-light));
+    border: none;
+}
+
+.answer-section .btn-success:hover {
+    background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(6, 100, 168, 0.4);
+}
+
+.answer-section .btn-outline-secondary {
+    border: 2px solid #6c757d;
+    color: #6c757d;
+}
+
+.answer-section .btn-outline-secondary:hover {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Animaciones específicas para recuperación */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.input-field.show {
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -830,7 +843,7 @@ body {
     .social-icons a {
         width: 35px;
         height: 35px;
-        font-size: 16px;
+        font-size: 14px;
     }
     
     .password-requirements {
@@ -839,6 +852,10 @@ body {
     
     .requirement {
         font-size: 0.8rem;
+    }
+    
+    .col-md-8 {
+        padding: 0 15px;
     }
     
     .recovery-option {
@@ -859,10 +876,6 @@ body {
         font-size: 0.85rem;
     }
     
-    .col-md-8 {
-        padding: 0 15px;
-    }
-    
     .verification-icon,
     .password-icon,
     .success-icon {
@@ -877,6 +890,28 @@ body {
     
     #success-message {
         padding: 1.5rem 0;
+    }
+    
+    .questions-card {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .question-item {
+        padding: 12px;
+    }
+    
+    .security-info {
+        padding: 12px;
+    }
+    
+    .selected-question-display {
+        padding: 12px;
+    }
+    
+    .answer-section .btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
     }
 }
 
@@ -895,6 +930,23 @@ body {
         margin-right: 10px;
         transform: scale(1.1);
     }
+    
+    .questions-card {
+        padding: 1rem;
+    }
+    
+    .question-item {
+        padding: 10px;
+    }
+    
+    .answer-section .d-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .answer-section .btn {
+        width: 100%;
+    }
 }
 
 /* ===== ACCESIBILIDAD ===== */
@@ -902,7 +954,11 @@ body {
     .login-card,
     .btn-success,
     .form-control,
-    .social-icons a {
+    .social-icons a,
+    .recovery-option,
+    .input-field,
+    .question-item,
+    .questions-card {
         animation: none;
         transition: none;
     }
@@ -919,6 +975,11 @@ button:focus,
 
 /* Mejoras de accesibilidad */
 .recovery-option:focus-within {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+.question-item:focus {
     outline: 2px solid var(--accent-blue);
     outline-offset: 2px;
 }

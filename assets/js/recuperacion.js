@@ -72,9 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
         showMethodSelectionForm();
     });
     
-    // Botón para volver al método desde nueva contraseña - CORREGIDO
+    // Botón para volver al método desde nueva contraseña
     document.getElementById('back-to-verification')?.addEventListener('click', function() {
-        // CORRECCIÓN: Volver directamente al método de recuperación, no a la verificación
         showMethodSelectionForm();
     });
     
@@ -270,18 +269,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Validación en tiempo real de coincidencia de contraseñas
-        document.getElementById('confirm-password')?.addEventListener('input', function() {
-            const newPassword = document.getElementById('new-password').value;
-            const confirmPassword = this.value;
-            
-            if (confirmPassword && newPassword !== confirmPassword) {
-                this.style.borderColor = '#ef4444';
-            } else if (confirmPassword && newPassword === confirmPassword) {
-                this.style.borderColor = '#10b981';
-            } else {
-                this.style.borderColor = '';
-            }
-        });
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const passwordMatchFeedback = document.getElementById('password-match-feedback');
+        
+        if (confirmPasswordInput && passwordMatchFeedback) {
+            confirmPasswordInput.addEventListener('input', function() {
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = this.value;
+                
+                if (confirmPassword && newPassword !== confirmPassword) {
+                    this.style.borderColor = '#ef4444';
+                    passwordMatchFeedback.innerHTML = '<i class="fas fa-times me-2"></i>Las contraseñas no coinciden';
+                    passwordMatchFeedback.className = 'password-match-feedback show not-matching';
+                } else if (confirmPassword && newPassword === confirmPassword) {
+                    this.style.borderColor = '#10b981';
+                    passwordMatchFeedback.innerHTML = '<i class="fas fa-check me-2"></i>Las contraseñas coinciden';
+                    passwordMatchFeedback.className = 'password-match-feedback show matching';
+                } else {
+                    this.style.borderColor = '';
+                    passwordMatchFeedback.className = 'password-match-feedback';
+                }
+            });
+        }
     }
     
     // ==================== MOSTRAR LISTADO DE PREGUNTAS ====================
@@ -294,39 +303,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Crear modal de preguntas
         const questionsModal = document.createElement('div');
         questionsModal.className = 'security-questions-modal';
-        questionsModal.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            padding: 20px;
-            box-sizing: border-box;
-        `;
         
         questionsModal.innerHTML = `
-            <div class="questions-card" style="
-                background: white;
-                border-radius: 15px;
-                padding: 2rem;
-                max-width: 600px;
-                width: 100%;
-                max-height: 90vh;
-                overflow-y: auto;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            ">
+            <div class="questions-card">
                 <div class="text-center mb-4">
                     <i class="fas fa-list-alt text-success" style="font-size: 3rem; margin-bottom: 1rem;"></i>
                     <h4 class="text-dark mb-2">Selecciona tu Pregunta de Seguridad</h4>
                     <p class="text-muted">Elige la pregunta que configuraste al registrarte</p>
                 </div>
                 
-                <div class="security-info mb-4 p-3 bg-light rounded">
+                <div class="security-info mb-4 p-3 rounded">
                     <p class="mb-1"><strong>Método:</strong> ${method === 'email' ? 'Email' : 'SMS'}</p>
                     <p class="mb-0"><strong>Contacto:</strong> ${contactInfo}</p>
                 </div>
@@ -355,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 <div class="selected-question-section mb-4" id="selected-question-section" style="display: none;">
                     <h6 class="text-dark mb-2">Pregunta seleccionada:</h6>
-                    <div class="selected-question-display p-3 bg-success text-white rounded">
+                    <div class="selected-question-display p-3 rounded">
                         <p class="mb-0 fw-bold" id="selected-question-text"></p>
                     </div>
                 </div>
@@ -425,7 +411,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 100);
         
-        // Manejar verificación de respuesta - CÓDIGO CORREGIDO
+        // Manejar verificación de respuesta
         document.getElementById('verify-answer-btn').addEventListener('click', function() {
             const userAnswer = document.getElementById('security-answer-input').value.trim();
             
@@ -448,7 +434,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Manejar cancelación
         document.getElementById('cancel-questions-btn').addEventListener('click', function() {
             document.body.removeChild(questionsModal);
-            // Al cancelar, volver al método de recuperación
             showMethodSelectionForm();
         });
         
@@ -456,7 +441,6 @@ document.addEventListener('DOMContentLoaded', function() {
         questionsModal.addEventListener('click', function(e) {
             if (e.target === questionsModal) {
                 document.body.removeChild(questionsModal);
-                // Al hacer clic fuera, volver al método de recuperación
                 showMethodSelectionForm();
             }
         });
@@ -653,21 +637,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const notification = document.createElement('div');
         notification.className = 'custom-notification';
+        if (type === 'error') notification.classList.add('error');
         notification.textContent = message;
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b'};
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            z-index: 10000;
-            font-weight: 500;
-            max-width: 400px;
-            animation: slideInRight 0.3s ease;
-        `;
         
         document.body.appendChild(notification);
         
@@ -682,31 +653,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 4000);
     }
-    
-    // ==================== ESTILOS DE ANIMACIÓN ====================
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideOutRight {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        
-        .shake {
-            animation: shake 0.5s ease-in-out;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-    `;
-    document.head.appendChild(style);
     
     console.log('✅ Sistema de recuperación completo LISTO');
     console.log('📱 Flujo: Método → Pregunta → Código → Nueva Contraseña → Éxito');
