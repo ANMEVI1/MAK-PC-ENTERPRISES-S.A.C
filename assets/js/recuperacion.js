@@ -30,22 +30,19 @@ document.addEventListener('DOMContentLoaded', function() {
         sms: 'Continuar con SMS'
     };
     
-    // Mapeo completo de preguntas
+    // Mapeo completo de preguntas (SOLO 3)
     const questionMap = {
+        'color': '¿Cuál es tu color favorito?',
         'mascota': '¿Cuál es el nombre de tu primera mascota?',
-        'ciudad': '¿En qué ciudad naciste?',
-        'amigo': '¿Cuál es el nombre de tu mejor amigo de la infancia?',
-        'comida': '¿Cuál es tu comida favorita?',
-        'profesor': '¿Cuál es el nombre de tu profesor favorito?',
-        'pelicula': '¿Cuál es tu película favorita?'
+        'apodo': '¿Cuál era tu apodo de infancia?'
     };
     
     // ==================== INICIALIZAR DATOS DE PRUEBA ====================
     function initializeTestData() {
         if (!localStorage.getItem('userSecurityData')) {
             const testData = {
-                question: 'mascota',
-                answer: 'firulais', // RESPUESTA POR DEFECTO
+                question: 'color',
+                answer: 'azul', // RESPUESTA POR DEFECTO
                 email: 'usuario@ejemplo.com',
                 phone: '912345678'
             };
@@ -402,14 +399,32 @@ document.addEventListener('DOMContentLoaded', function() {
             // Simular cambio de contraseña exitoso
             simulatePasswordChange(newPassword);
         });
+
+        // Mostrar/ocultar contraseña
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const input = this.closest('.input-group').querySelector('input');
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
     }
     
     // ==================== MOSTRAR LISTADO DE PREGUNTAS ====================
     function showSecurityQuestionsList(method, contactInfo) {
         // Obtener datos guardados
         const userData = JSON.parse(localStorage.getItem('userSecurityData') || '{}');
-        const userQuestionKey = userData.question || 'mascota';
-        const userQuestionText = questionMap[userQuestionKey] || questionMap['mascota'];
+        const userQuestionKey = userData.question || 'color';
+        const userQuestionText = questionMap[userQuestionKey] || questionMap['color'];
         
         // Crear modal de preguntas
         const questionsModal = document.createElement('div');
@@ -424,8 +439,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 <div class="security-info mb-4 p-3 rounded">
-                    <p class="mb-1"><strong>Método:</strong> ${method === 'email' ? 'Email' : 'SMS'}</p>
-                    <p class="mb-0"><strong>Contacto:</strong> ${contactInfo}</p>
+                    <p class="mb-1"><i class="fas fa-mobile-alt me-2"></i><strong>Método:</strong> ${method === 'email' ? 'Email' : 'SMS'}</p>
+                    <p class="mb-0"><i class="fas fa-user me-2"></i><strong>Contacto:</strong> ${contactInfo}</p>
                 </div>
                 
                 <div class="questions-list mb-4">
@@ -774,5 +789,5 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Sistema de recuperación completo LISTO');
     console.log('📱 Flujo: Método → Pregunta → Código → Nueva Contraseña → Éxito');
     console.log('💡 El sistema acepta CUALQUIER código de 6 dígitos');
-    console.log('🔐 Requerimientos de contraseña implementados en recuperación');
+    console.log('🔐 Preguntas de seguridad:', Object.values(questionMap));
 });

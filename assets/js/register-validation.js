@@ -1,6 +1,6 @@
 /**
  * Validación del formulario de registro con checklist de requerimientos
- * MAK PC Enterprise
+ * MAK PC Enterprise - Versión Actualizada
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const lengthReq = document.getElementById('length-req');
     const upperReq = document.getElementById('upper-req');
     const numberReq = document.getElementById('number-req');
+
+    // Mapeo de preguntas de seguridad (SOLO 3)
+    const questionMap = {
+        'color': '¿Cuál es tu color favorito?',
+        'mascota': '¿Cuál es el nombre de tu primera mascota?',
+        'apodo': '¿Cuál era tu apodo de infancia?'
+    };
 
     // Estados de validación
     let isPasswordStrong = false;
@@ -345,4 +352,5 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar validación
     updateSubmitButton();
     console.log('✅ Sistema de registro con checklist INICIALIZADO');
+    console.log('🔐 Preguntas de seguridad:', Object.values(questionMap));
 });
