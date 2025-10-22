@@ -543,21 +543,6 @@ body {
     padding: 12px 20px;
 }
 
-/* Botón para mostrar/ocultar contraseña */
-.toggle-password {
-    border-left: none;
-    background-color: #f8f9fa;
-    border-color: #e0e0e0;
-    color: #666;
-    transition: all 0.3s ease;
-}
-
-.toggle-password:hover {
-    background-color: #e9ecef;
-    border-color: #c0c0c0;
-    color: #333;
-}
-
 /* Mensaje de éxito */
 #success-message {
     padding: 2rem 0;
