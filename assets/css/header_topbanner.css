@@ -1,3 +1,6 @@
+/* =======================================================
+   🎨 VARIABLES GLOBALES
+======================================================= */
 :root {
     --primary-blue: #1e3a8a;
     --secondary-blue: #3b82f6;
@@ -23,6 +26,60 @@
     --social-bg: #333;
     --social-color: white;
 }
+
+/* =======================================================
+   🎯 TOP BAR (PRE-HEADER) STYLES
+======================================================= */
+
+/* Color de fondo personalizado, basado en tus variables (dark-gray o primary-blue) */
+.bg-dark-custom {
+    background-color: var(--dark-gray, #1a1a1a); 
+}
+
+/* Estilo general para los enlaces de la barra */
+.topbar-link {
+    color: rgba(255, 255, 255, 0.85); /* Blanco semi-transparente */
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: var(--transition, all 0.3s);
+    padding: 0 4px; /* Pequeño relleno para el hover */
+}
+
+.topbar-link:hover {
+    color: var(--yellow-accent, #fbbf24); /* Tu color amarillo para el hover */
+}
+
+/* Separador vertical que se ve en la imagen */
+.topbar-right a:not(:last-child) {
+    /* Aplicar un borde derecho a todos los enlaces de la derecha excepto al último */
+    border-right: 1px solid rgba(255, 255, 255, 0.2); 
+    padding-right: 15px !important; /* Espacio después del borde */
+}
+
+/* Estilo para el separador de texto ( | ) */
+.text-muted-separator {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+}
+
+/* Ajustes responsivos para que los elementos no se apilen tan pronto */
+@media (max-width: 991px) {
+    .topbar-left {
+        /* Fuerza a que el contenido se envuelva si no cabe */
+        flex-basis: 100%; 
+        justify-content: center;
+        margin-bottom: 5px;
+    }
+    .topbar-right {
+        flex-basis: 100%;
+        justify-content: center;
+    }
+}
+
+/* =======================================================
+   🎯 MAIN HEADER STYLES
+======================================================= */
+
 .main-header {
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     box-shadow: var(--shadow-medium);
@@ -39,7 +96,6 @@
     left: 0;
     right: 0;
     height: 3px;
-    
 }
 
 .navbar {
@@ -61,9 +117,7 @@
 .logo {
     text-decoration: none;
     display: flex;
-    
     transition: var(--transition);
-    
 }
 
 .logo:hover {
@@ -343,6 +397,7 @@
         gap: 6px;
     }
 }
+
 /* Para móviles muy pequeños */
 @media (max-width: 360px) {
     .logo-text {
